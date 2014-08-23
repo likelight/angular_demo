@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1, maximum-scale=1″>
+    <title> Test for angular</title>
+    <style>
+        h2{text-align: center;margin: 0 auto;}
+        #dataInput {margin: 5px auto;text-align: center}
+        #studentInfo th{width: 100px; position: relative;}
+        #studentInfo thead{height: 30px;}
+        #studentInfo input[type="search"]{position: absolute;left: 380px;top:5px;}
+        #studentInfo thead th {height: 30px;position: relative;}
+        #studentInfo {border:  1px solid black;margin: 5px auto;}
+        #studentInfo th,#studentInfo td {border: 1px solid black; text-align: center;}
+        .down_triangle {
+            border-color: #000 transparent transparent transparent;
+            border-style: solid;
+            border-width: 6px 6px 0px 6px;
+            width: 0;
+            height: 0;
+            position: absolute;
+            top:14px;
+
+        }
+
+        .up_triangle{
+            border-color: transparent transparent #000 transparent;
+            border-style: solid;
+            border-width: 0px 6px 6px 6px;
+            width: 0;
+            height: 0;
+            position: absolute;
+            top:14px;
+
+        }
+    </style>
+</head>
+<body ng-app ng-controller="SysControl">
+    <h2>Hello {{name}}</h2>
+
+    <form id="dataInput" name="form">
+        <label for="">信息录入</label>
+        <label for="">name:</label><input type="text" placeholder="姓名" ng-model="Names"  name="Names" required />
+        <label for="">age:</label><input type="number" placeholder="年龄" ng-model="Age"  name="Age" required  min="0" max="100"/>
+        <span ng-show="form.Age.$error.integer || form.Age.$error.min || form.Age.$error.max">请输入0-100的整数</span>
+        <label for="">sex:</label> <select placeholder="性别" ng-model="Sex"/>
+        <option value="female" selected>female</option>
+        <option value="male">male</option>
+        </select>
+        <label for="">grade:</label><input type="number" placeholder="分数" ng-model="Grade"  name="Grade" required  min="0" max="100"/>
+        <span ng-show="form.Grade.$error.integer || form.Grade.$error.min || form.Grade.$error.max">请输入0-100的整数</span>
+        <button ng-click="addTotable()">添加</button>
+    </form>
+    <table id="studentInfo">
+        <thead>
+            <tr>
+                <th colspan="5">学生信息表
+                    <input type="search" placeholder="输入您要查找的姓名" ng-model="nameFilter" />
+                </th>
+            </tr>
+            <tr>
+                <th>姓名</th>
+                <th>年龄<i class={{age_class}} ng-init="age_class='down_triangle'" ng-click="asendAge()"></i></th>
+                <th>性别<i class={{sex_class}} ng-init="sex_class='down_triangle'" ng-click="asendSex()"></i></th>
+                <th>成绩<i class={{grade_class}} ng-init="grade_class='down_triangle'" ng-click="asendGrade()"></i></th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="data in datas | orderBy:order | filter:searchFilter ">
+                <td>{{data.names}}</td>
+                <td contentEditable="true">{{data.age}}</td>
+                <td contentEditable="true">{{data.sex}}</td>
+                <td contentEditable="true">{{data.grade}}</td>
+                <!--<td>{{$index}}</td>-->
+                <td>
+                    <button ng-click="delete(datas.indexOf(data))">删除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!--<div>{{ datas | orderBy : 'age' | filter:name = 'likelight'}}</div>-->
+<script src="./js/ng.js"></script>
+<script src="./js/Controller.js"></script>
+</body>
+</html>
